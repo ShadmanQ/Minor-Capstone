@@ -1,11 +1,20 @@
-#53a402f5-f9d1-410b-bd66-8237844f03f8
-from chemspipy import ChemSpider
+#53a402f5-f9d1-410b-bd66-8237844f03f8, security token to use API
 
+
+#calling of API
+from chemspipy import ChemSpider
 cs = ChemSpider('53a402f5-f9d1-410b-bd66-8237844f03f8')
+
+#prompts user for compound of interest
 searchString = str(raw_input("what would you like to search? "))
+
+#iterator variable
 x =1
+#holds list of Compound objects
 resultList = []
 
+#note: result is a 'Compound' object, which is part of the ChemSpiPy wrapper
+#not a string or int
 for result in cs.search(searchString):
     print(str(x) + ". " + result.common_name)
     resultList.append(result)
@@ -21,7 +30,19 @@ if len(resultList)> 1:
     print("Your search returned " + str(len(resultList)) + " results. Please specify which compound you are interested in")
     num = int(raw_input("Enter a number: "))
 
-    cd = cs.get_compound(resultList[0].csid)
+    cd = cs.get_compound(resultList[num-1].csid)
     print(cd.common_name)
     print(cd.molecular_weight)
     print(cd.molecular_formula)
+
+formlength = len(cd.molecular_formula)
+elements= {}
+for i in range(0,len(cd.molecular_formula)):
+    if cd.molecular_formula[i]=='_':
+        if cd.molecular_formula[i-2].isalpha() == True:
+            print(cd.molecular_formula[i-2:i])
+            elements[str(cd.molecular_formula[i-2:i])] = ''
+        else:
+            print(cd.molecular_formula[i-1])
+            elements[str(cd.molecular_formula[i-1])] = ''
+print elements
