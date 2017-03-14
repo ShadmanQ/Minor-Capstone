@@ -36,13 +36,14 @@ if len(resultList)> 1:
     print(cd.molecular_formula)
 
 formlength = len(cd.molecular_formula)
-elements= {}
+elements= []
+
 for i in range(0,len(cd.molecular_formula)):
-    if cd.molecular_formula[i]=='_':
-        if cd.molecular_formula[i-2].isalpha() == True:
-            print(cd.molecular_formula[i-2:i])
-            elements[str(cd.molecular_formula[i-2:i])] = ''
+    if (i == len(cd.molecular_formula)-1)&(cd.molecular_formula[i].isupper() == True):
+        print(cd.molecular_formula[i])
+        break
+    if cd.molecular_formula[i].isupper() == True:
+        if cd.molecular_formula[i+1].isalpha() == True:
+            print(cd.molecular_formula[i:i+2])
         else:
-            print(cd.molecular_formula[i-1])
-            elements[str(cd.molecular_formula[i-1])] = ''
-print elements
+            print(cd.molecular_formula[i])
