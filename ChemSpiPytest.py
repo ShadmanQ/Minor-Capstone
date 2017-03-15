@@ -35,15 +35,25 @@ if len(resultList)> 1:
     print(cd.molecular_weight)
     print(cd.molecular_formula)
 
-formlength = len(cd.molecular_formula)
-elements= []
+elements= {}
 
 for i in range(0,len(cd.molecular_formula)):
     if (i == len(cd.molecular_formula)-1)&(cd.molecular_formula[i].isupper() == True):
-        print(cd.molecular_formula[i])
+        elements[str(cd.molecular_formula[i])] = 1
         break
     if cd.molecular_formula[i].isupper() == True:
-        if cd.molecular_formula[i+1].isalpha() == True:
-            print(cd.molecular_formula[i:i+2])
+        if cd.molecular_formula[i+1].islower() == True:
+            elements[str(cd.molecular_formula[i:i+2])] = 1
         else:
-            print(cd.molecular_formula[i])
+            elements[str(cd.molecular_formula[i])] = 1
+
+
+for element in elements:
+    print( 'this has ' + str(elements[element]) + ' instances of ' + element) 
+
+for i in range (0,len(cd.molecular_formula)):
+    if cd.molecular_formula[i] == '{':
+        for j in range(i, len(cd.molecular_formula)):
+            if cd.molecular_formula[j] == '}':
+                print(cd.molecular_formula[i+1:j])
+                break
