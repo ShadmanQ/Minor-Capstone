@@ -35,6 +35,8 @@ if len(resultList)> 1:
     print(cd.molecular_weight)
     print(cd.molecular_formula)
 
+
+#initialization of an elements dictionary for the compound of interest
 elements= {}
 
 for i in range(0,len(cd.molecular_formula)):
@@ -47,13 +49,21 @@ for i in range(0,len(cd.molecular_formula)):
         else:
             elements[str(cd.molecular_formula[i])] = 1
 
+print(elements)
 
-for element in elements:
-    print( 'this has ' + str(elements[element]) + ' instances of ' + element) 
-
-for i in range (0,len(cd.molecular_formula)):
-    if cd.molecular_formula[i] == '{':
-        for j in range(i, len(cd.molecular_formula)):
-            if cd.molecular_formula[j] == '}':
-                print(cd.molecular_formula[i+1:j])
-                break
+for i in range(0,len(elements)):
+    thingy = str(cd.molecular_formula).find(elements.keys()[i])
+    string = elements.keys()[i]
+    for j in range(thingy, len(cd.molecular_formula)):
+        if cd.molecular_formula[j+2].isupper
+        if cd.molecular_formula[j] == '{':
+            for k in range(j,len(cd.molecular_formula)):
+                if cd.molecular_formula[k] == '}':
+                    #print(int(cd.molecular_formula[j+1:k]))
+                    num = int(cd.molecular_formula[j+1:k])
+                    elements[string]= num
+                    break
+            
+            break
+                           
+print(elements)
