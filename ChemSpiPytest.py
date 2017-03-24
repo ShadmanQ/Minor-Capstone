@@ -1,6 +1,37 @@
 #53a402f5-f9d1-410b-bd66-8237844f03f8, security token to use API
 
 
+#function protoype
+def Seperate(dicto, theString):
+    for i in range(0,len(theString)):
+        if (i == len(theString)-1)&(theString[i].isupper() == True):
+            dicto[str(theString[i])] = 1
+            break
+        if theString[i].isupper() == True:
+            if theString[i+1].islower() == True:
+                dicto[str(theString[i:i+2])] = 1
+            else:
+                dicto[str(theString[i])] = 1
+
+    for i in range(0,len(dicto)):
+        thingy = str(theString).find(dicto.keys()[i])
+        interest = dicto.keys()[i]
+        for j in range(thingy, len(theString)):
+            if theString[j] == theString[len(theString)-1]:
+                break
+            if theString[j+2].isupper() == True | theString[j+1].isalpha() == True:
+                dicto[interest] = 1
+                break
+            elif theString[j] == '{':
+                for k in range(j,len(theString)):
+                    if theString[k] == '}':
+                        #print(int(cd.molecular_formula[j+1:k]))
+                        num = int(theString[j+1:k])
+                        dicto[interest]= num
+                        break            
+                break
+                           
+
 #calling of API
 from chemspipy import ChemSpider
 cs = ChemSpider('53a402f5-f9d1-410b-bd66-8237844f03f8')
@@ -39,31 +70,22 @@ if len(resultList)> 1:
 #initialization of an elements dictionary for the compound of interest
 elements= {}
 
-for i in range(0,len(cd.molecular_formula)):
-    if (i == len(cd.molecular_formula)-1)&(cd.molecular_formula[i].isupper() == True):
-        elements[str(cd.molecular_formula[i])] = 1
-        break
-    if cd.molecular_formula[i].isupper() == True:
-        if cd.molecular_formula[i+1].islower() == True:
-            elements[str(cd.molecular_formula[i:i+2])] = 1
-        else:
-            elements[str(cd.molecular_formula[i])] = 1
-
+Seperate(elements, cd.molecular_formula)
 print(elements)
 
-for i in range(0,len(elements)):
-    thingy = str(cd.molecular_formula).find(elements.keys()[i])
-    string = elements.keys()[i]
-    for j in range(thingy, len(cd.molecular_formula)):
-        if cd.molecular_formula[j+2].isupper
-        if cd.molecular_formula[j] == '{':
-            for k in range(j,len(cd.molecular_formula)):
-                if cd.molecular_formula[k] == '}':
-                    #print(int(cd.molecular_formula[j+1:k]))
-                    num = int(cd.molecular_formula[j+1:k])
-                    elements[string]= num
-                    break
-            
-            break
-                           
-print(elements)
+
+amount = float(input("Please enter how much you much " + cd.common_name + " you would like to make in milligrams: "))
+
+mol_amount = (amount/1000)/cd.molecular_weight
+
+print("You would like to make " + str("%.4f" % mol_amount) + " mols of this compound.")
+
+reactants = []
+end = 1
+
+while (end <= 10):
+    reactant = str(raw_input("enter a reactant "))
+    reactants.append(reactant)
+    end+=1
+
+print(reactants)
