@@ -53,9 +53,10 @@ for result in cs.search(searchString):
 
 if len(resultList) == 1:
     cd = cs.get_compound(resultList[0].csid)
-    print(cd.common_name)
     print(cd.molecular_weight)
     print(cd.molecular_formula)
+    print(cd.image_url)
+
 
 if len(resultList)> 1:
     print("Your search returned " + str(len(resultList)) + " results. Please specify which compound you are interested in")
@@ -65,6 +66,7 @@ if len(resultList)> 1:
     print(cd.common_name)
     print(cd.molecular_weight)
     print(cd.molecular_formula)
+    print(cd.image_url)
 
 
 #initialization of an elements dictionary for the compound of interest
@@ -78,14 +80,12 @@ amount = float(input("Please enter how much you much " + cd.common_name + " you 
 
 mol_amount = (amount/1000)/cd.molecular_weight
 
-print("You would like to make " + str("%.4f" % mol_amount) + " mols of this compound.")
+print("You would like to make " + str(amount) +" mg or  " + str("%.4f" % mol_amount) + " mols of this compound.")
 
-reactants = []
-end = 1
+react = str(raw_input("Please enter a reactant "))
 
-while (end <= 10):
-    reactant = str(raw_input("enter a reactant "))
-    reactants.append(reactant)
-    end+=1
+rg = cs.search(react)
+gf= cs.get_compound(rg[0].csid)
 
-print(reactants)
+print(gf.common_name)
+print(gf.monoisotopic_mass)
