@@ -7,59 +7,36 @@ import urllib2
 from chemspipy import ChemSpider
 cs = ChemSpider('53a402f5-f9d1-410b-bd66-8237844f03f8')
 
-class enhancedEntry(Frame):
-    def __init__(self,parent,prompt,actionText, action):
-        Frame.__init__(self,parent)
 
+global theThing
 
-        self.inputBoxLabel = Label(self)
-        self.inputBoxLabel['text']=prompt
-        self.inputBoxLabel.pack(side=LEFT,fill=X)
-
-
-        self.inputBox = Entry(self)
-        self.inputBox.pack(side=LEFT,fill=X)
-
-        self.button = Button(self)
-        self.button['text'] = actionText
-        self.button['command'] = action
-        self.button.pack(side=LEFT,fill=X)
-
-        def get(self):
-            return self.inputBox.get()
-
-        def setActionText(self, actionText):
-            self.button['text']=actionText
-
-        def setPrompt(self,prompt):
-            self.inputBoxLabel['text']=prompt
-
-        def setAction(self,action):
-            self.button['command'] = action
-
-    
-def get_list(event):
-    """
-    function to read the listbox selection
-    and put the result in an entry widget
-    """
-    # get selected line index
-    index = Lb1.curselection()[0]
-    # get the line's text
-    seltext = Lb1.get(index)
-    # delete previous text in enter1
-    #secondEntry.delete(0, 50)
-    # now display the selected text
-    secondEntry['text']=seltext
-    compo = cs.get_compound(
-    secondEntry['text'] = str(cd.csid)
-    
 
 def Searchbox():
+
+    tempDict = {}
+    
     string = compound.get()
     cd = cs.search(string)
     for result in cd:
         Lb1.insert(END,result.common_name)
+        tempDict[result.common_name] = result.csid
+    theThing = tempDict
+
+    print(theThing)
+
+def get_list(event):
+    '''
+    function to read the listbox selection
+    and put the result in an entry widget
+    '''
+
+    #get selected line index
+    index = Lb1.curselection()[0]
+    #get the line's text in enterl
+    seltext = Lb1.get(index)
+    #display the selected text
+    secondEntry['text'] = seltext
+                
 
 root = Tk()
 compound = StringVar()
