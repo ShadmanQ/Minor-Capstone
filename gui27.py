@@ -1,8 +1,7 @@
-# -*- coding: cp1252 -*-
-
 #importing requisite libraries
 import sys
 import io
+import os
 from Tkinter import *
 from PIL import Image, ImageTk
 from urllib2 import urlopen
@@ -111,16 +110,33 @@ class spectraWindow(Frame):
         
         self.index = number
         self.top = Toplevel()
-        self.top.geometry('640x300')
         self.top.title("Spectra")
+        self.directory = cs.get_compound(self.index).common_name
 
         self.create_spectraWindow(self.top)
 
     def create_spectraWindow(self,frame):
         rawSpectraList = cs.get_compound(self.index).spectra
-        if (len(rawSpectraList) <1):
-            noSpectraLabel = Label(frame, text='Unfortunately, there do not seem to be any spectra available for this compound.')
-            noSpectraLabel.pack()
+        filteredList = []
+
+        for spectrum in rawSpectraList:
+            if spectrum.spectrum_type == 'IR' or spectrum.spectrum_type == 'HNMR':
+                filteredList.append(spectrum)
+
+        if (len(filteredList) < 1):
+            noSpectraLabel = Label(frame, text='Unfortunately, there do not seem to be any spectra available for this compound.').pack()
+        else:
+            os.mkdir(self.directory)
+            for spectrum in filteredList:
+                f = urlopen(spectrum.url)
+                data = f.read()
+                name = spectrum.spectrum_type + " spectrum " + str(self.index) +".jdx"
+                with open(self.directory+'/'+name,"wb") as code:
+                    code.write(data)
+            downloadedLabel = Label(frame, text = 'Spectra have been downloaded! Please check the folder named ' + self.directory).pack()
+            downloadButton = Button(frame, text = 'Open directory...', command=self.openpath).pack()
+    def openpath(self):
+         os.startfile(self.directory)
 
 class propertyWindow(Frame):
     def __init__(self,master,number):
@@ -314,8 +330,9 @@ class synthWindow(Frame):
             finalLabel.pack(anchor=E)
         EndingLabel = Label(self.top, text = 'This is what you need to synthesize ' + str(self.mass) +'g of ' + self.name + ', now get to work!')
         EndingLabel.pack(anchor=E)
+
 root = Tk()
-root.geometry('580x300')
+root.geometry('450x300')
 root.title("Reagent Calculator")
 
 mainCompound = StringVar(root)
