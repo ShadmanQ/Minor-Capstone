@@ -215,11 +215,13 @@ class propertyWindow(Frame):
                         print(self.appMessage)
                         break
                 break
-                
+
+        #prints name of molecule at top of window  
         self.molLabel = Label(frame, text=propertyRetrieval.common_name, font = "Calibri 16 bold")
         self.molLabel.grid(row=0,sticky=W)
         self.top.grid_rowconfigure(1,minsize=15)
 
+        #series of labels to present the information
         self.formLabel = Label(frame, text='Molecular Formula:')
         self.formLabel.grid(row=2,sticky=W)
         self.top.grid_rowconfigure(3,minsize=15)
@@ -260,6 +262,7 @@ class synthWindow(Frame):
         self.top.geometry('800x500')
         self.create_synthWindow(self.top)
 
+        #internal variables to be manipulated in functions
         self.mass = 0
         self.name
         self.ID
@@ -267,10 +270,13 @@ class synthWindow(Frame):
         self.url
 
     def create_synthWindow(self,frame):
+
+        #accesses single entry in dictionary to manipulate and retrieve data from
         for compound in CompoundDict:
             self.name = compound
             self.ID = CompoundDict[compound]
 
+        #user prompt
         self.popLabel = Label(frame, text =('Please enter the amount of ' + self.name + ' you would like to make in grams'))
         self.popLabel.pack(side=TOP,anchor=W)
 
